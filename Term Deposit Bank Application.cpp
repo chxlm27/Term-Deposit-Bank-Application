@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <map>
+#include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -21,6 +23,7 @@ void printDetails()
     cout << ORANGE << "3. ING\n" << RESET;
     cout << RED << "4. BCR\n" << RESET;
     cout << CYAN << "5. BRD\n" << RESET;
+    cout << MAGENTA << "B. Go Back (Exit)\n" << RESET;
     cout << "\n\nEnter an option: ";
 }
 
@@ -59,24 +62,26 @@ public:
 
     double calculateAmount(int option, double amount) const {
         const double tax = 0.1;
+        double interest = 0.0;
+
         switch (option) {
         case 1:
-            amount = amount * (getThreeMonths() / 100) / 4;
+            interest = amount * (getThreeMonths() / 100) / 4;
             break;
         case 2:
-            amount = amount * (getSixMonths() / 100) / 2;
+            interest = amount * (getSixMonths() / 100) / 2;
             break;
         case 3:
-            amount = amount * (getTwelveMonths() / 100);
+            interest = amount * (getTwelveMonths() / 100);
             break;
         case 4:
-            amount = amount * (getTwentyFourMonths() / 100) * 4;
+            interest = amount * (getTwentyFourMonths() / 100) * 2;
             break;
         default:
             return 0.0;
         }
-        amount -= (amount * tax);
-        return amount;
+        interest -= (interest * tax);
+        return amount + interest;
     }
 
     virtual void displayName() const = 0;
@@ -86,11 +91,6 @@ public:
 
 class RaiffeisenBank : public Bank {
 public:
-    const double threeMonths = 4.80;
-    const double sixMonths = 5.00;
-    const double twelveMonths = 5.00;
-    const double twentyFourMonths = 5.30;
-
     RaiffeisenBank() {
         setThreeMonths(4.80);
         setSixMonths(5.00);
@@ -99,53 +99,41 @@ public:
     }
 
     void displayName() const override {
-        cout << YELLOW<< "                                   ----- RAIFFEISEN BANK -----\n\n\n"<< RESET;
+        cout << YELLOW << "                                   ----- RAIFFEISEN BANK -----\n\n\n" << RESET;
     }
     void displayMessage() const override {
-        cout << RED<< "At RaiffeisenBank, we offer the following term deposits:\n\n"<<RESET;
-        cout << GREEN<<"1. Three months deposit (3 Months RON):                    4.80% annually.\n"<< RESET;
-        cout << YELLOW<<"2. Six months flexi-deposit (6 Months RON):                5.00% annually.\n" << RESET;
-        cout << CYAN<<"3. Twelve months deposit (12 Months RON):                  5.00% annually.\n"<<RESET;
-        cout << ORANGE<<"4. Twenty four months deposit (24 Months RON):             5.30% annually.\n\n\n"<<RESET;
+        cout << RED << "At RaiffeisenBank, we offer the following term deposits:\n\n" << RESET;
+        cout << GREEN << "1. Three months deposit (3 Months RON):                    4.80% annually.\n" << RESET;
+        cout << YELLOW << "2. Six months flexi-deposit (6 Months RON):                5.00% annually.\n" << RESET;
+        cout << CYAN << "3. Twelve months deposit (12 Months RON):                  5.00% annually.\n" << RESET;
+        cout << ORANGE << "4. Twenty four months deposit (24 Months RON):             5.30% annually.\n\n\n" << RESET;
     }
 };
 
 class BancaTransilvania : public Bank {
 public:
-    const double threeMonths = 4.70;
-    const double sixMonths = 4.95;
-    const double twelveMonths = 5.20;
-    const double twentyFourMonths = 5.35;
-
-    BancaTransilvania()
-    {
+    BancaTransilvania() {
         setThreeMonths(4.70);
         setSixMonths(4.95);
         setTwelveMonths(5.20);
-        setTwentyFourMonths(5.25);
+        setTwentyFourMonths(5.35);
     }
 
     void displayName() const override {
-        cout << ORANGE<<"                                   ----- BANCA TRANSILVANIA -----\n\n\n"<<RESET;
+        cout << ORANGE << "                                   ----- BANCA TRANSILVANIA -----\n\n\n" << RESET;
     }
     void displayMessage() const override {
-        cout << RED << "At Banca Transilvania, we offer the following term deposits:\n\n"<< RESET;
+        cout << RED << "At Banca Transilvania, we offer the following term deposits:\n\n" << RESET;
         cout << GREEN << "1. Three months deposit (3 Months RON):                   4.70% annually.\n" << RESET;
-        cout << YELLOW << "2. Six months flexi-deposit (6 Months RON):               4.95% annually.\n"<<RESET;
-        cout << CYAN << "3. Twelve months deposit (12 Months RON):                 5.20% annually.\n"<<RESET;
-        cout << ORANGE << "4. Twenty four months deposit (24 Months RON):            5.25% annually.\n\n\n"<<RESET;
+        cout << YELLOW << "2. Six months flexi-deposit (6 Months RON):               4.95% annually.\n" << RESET;
+        cout << CYAN << "3. Twelve months deposit (12 Months RON):                 5.20% annually.\n" << RESET;
+        cout << ORANGE << "4. Twenty four months deposit (24 Months RON):            5.35% annually.\n\n\n" << RESET;
     }
 };
 
 class INGBank : public Bank {
 public:
-    const double threeMonths = 4.10;
-    const double sixMonths = 4.60;
-    const double twelveMonths = 5.00;
-    const double twentyFourMonths = 5.20;
-
-    INGBank()
-    {
+    INGBank() {
         setThreeMonths(4.10);
         setSixMonths(4.60);
         setTwelveMonths(5.00);
@@ -153,26 +141,20 @@ public:
     }
 
     void displayName() const override {
-        cout << ORANGE<<"                                   ----- ING -----\n\n\n"<<RESET;
+        cout << ORANGE << "                                   ----- ING -----\n\n\n" << RESET;
     }
     void displayMessage() const override {
-        cout << RED << "At ING BANK, we offer the following term deposits:\n\n"<<RESET;
-        cout << GREEN << "1. Three months deposit (3 Months RON):                  4.10% annually.\n"<<RESET;
-        cout << YELLOW << "2. Six months flexi-deposit (6 Months RON):              4.60% annually.\n"<<RESET;
+        cout << RED << "At ING BANK, we offer the following term deposits:\n\n" << RESET;
+        cout << GREEN << "1. Three months deposit (3 Months RON):                  4.10% annually.\n" << RESET;
+        cout << YELLOW << "2. Six months flexi-deposit (6 Months RON):              4.60% annually.\n" << RESET;
         cout << CYAN << "3. Twelve months deposit (12 Months RON):                5.00% annually.\n" << RESET;
-        cout << ORANGE<< "4. Twenty four months deposit (24 Months RON):           5.20% annually.\n\n\n"<<RESET;
+        cout << ORANGE << "4. Twenty four months deposit (24 Months RON):           5.20% annually.\n\n\n" << RESET;
     }
 };
 
 class BCRBank : public Bank {
 public:
-    const double threeMonths = 4.20;
-    const double sixMonths = 4.60;
-    const double twelveMonths = 5.00;
-    const double twentyFourMonths = 5.10;
-
-    BCRBank()
-    {
+    BCRBank() {
         setThreeMonths(4.20);
         setSixMonths(4.60);
         setTwelveMonths(5.00);
@@ -183,23 +165,17 @@ public:
         cout << ORANGE << "                                   ----- BCR -----\n\n\n" << RESET;
     }
     void displayMessage() const override {
-        cout << RED << "At BCR, we offer the following term deposits:\n\n"<<RESET;
+        cout << RED << "At BCR, we offer the following term deposits:\n\n" << RESET;
         cout << GREEN << "1. Three months deposit (3 Months RON):                4.20% annually.\n" << RESET;
         cout << YELLOW << "2. Six months flexi-deposit (6 Months RON):            4.60% annually.\n" << RESET;
         cout << CYAN << "3. Twelve months deposit (12 Months RON):              5.00% annually.\n" << RESET;
-        cout << ORANGE<< "4. Twenty four months deposit (24 Months RON):         5.10% annually.\n\n\n"<<RESET;
+        cout << ORANGE << "4. Twenty four months deposit (24 Months RON):         5.10% annually.\n\n\n" << RESET;
     }
 };
 
 class BRDBank : public Bank {
 public:
-    const double threeMonths = 3.85;
-    const double sixMonths = 4.00;
-    const double twelveMonths = 4.30;
-    const double twentyFourMonths = 4.40;
-    
-    BRDBank()
-    {
+    BRDBank() {
         setThreeMonths(3.85);
         setSixMonths(4.00);
         setTwelveMonths(4.30);
@@ -207,12 +183,12 @@ public:
     }
 
     void displayName() const override {
-        cout << ORANGE<<"                                   ----- BRD -----\n\n\n" << RESET;
+        cout << ORANGE << "                                   ----- BRD -----\n\n\n" << RESET;
     }
     void displayMessage() const override {
-        cout << RED<< "At BRD, we offer the following term deposits:\n\n"<<RESET;
-        cout << GREEN<< "1. Three months deposit (3 Months RON):               3.85% annually.\n"<<RESET;
-        cout << YELLOW<<"2. Six months flexi-deposit (6 Months RON):           4.00% annually.\n"<<RESET;
+        cout << RED << "At BRD, we offer the following term deposits:\n\n" << RESET;
+        cout << GREEN << "1. Three months deposit (3 Months RON):               3.85% annually.\n" << RESET;
+        cout << YELLOW << "2. Six months flexi-deposit (6 Months RON):           4.00% annually.\n" << RESET;
         cout << CYAN << "3. Twelve months deposit (12 Months RON):             4.30% annually.\n" << RESET;
         cout << ORANGE << "4. Twenty four months deposit (24 Months RON):        4.40% annually.\n\n\n" << RESET;
     }
@@ -230,31 +206,110 @@ unique_ptr<Bank> createBank(int option) {
 }
 
 int main() {
+    string choice;
 
-    printDetails();
+    do {
+        system("cls");
+        printDetails();
 
-    int option;
-    cin >> option;
-    system("cls");
+        string input;
+        cin >> input;
 
-    unique_ptr<Bank> bank = createBank(option);
+        if (input == "B" || input == "b") {
+            cout << "Exiting program. Goodbye!\n";
+            break;
+        }
 
-    if (bank) {
-        int option;
-        double amount;
-        bank->displayName();
-        bank->displayMessage();
+        int bankOption;
+        try {
+            bankOption = stoi(input);
+        }
+        catch (invalid_argument&) {
+            cout << RED << "Invalid input. Please enter a number between 1 and 5, or 'B' to exit.\n" << RESET;
+            cout << "\nPress Enter to go back to the main menu...\n";
+            cin.ignore();
+            cin.get();
+            continue;
+        }
 
-        cout << "Choose a deposit type: ";
-        cin >> option;
-        cout << '\n';
-        cout << GREEN<< "Enter the amount of RON for the deposit: " << RESET;
-        cin >> amount;
-        cout << ORANGE << "The accumulated wealth is: " << bank->calculateAmount(option,amount) << " RON\n" << RESET;
-    }
-    else {
-        cout << RED << "Invalid option. Please choose a number between 1 and 5.\n" << RESET;
-    }
+        system("cls");
+
+        unique_ptr<Bank> bank = createBank(bankOption);
+
+        if (bank) {
+            int depositOption;
+            double amount;
+
+            bank->displayName();
+            bank->displayMessage();
+
+            cout << "Choose a deposit type (or press 'B' to go back): ";
+            cin >> input;
+
+            if (input == "B" || input == "b") {
+                continue;
+            }
+
+            try {
+                depositOption = stoi(input);
+            }
+            catch (invalid_argument&) {
+                cout << RED << "Invalid input. Please enter a number between 1 and 4.\n" << RESET;
+                cout << "\nPress Enter to go back to the main menu...\n";
+                cin.ignore();
+                cin.get();
+                continue;
+            }
+
+            if (depositOption < 1 || depositOption > 4) {
+                cout << RED << "Invalid deposit type. Please choose a number between 1 and 4.\n" << RESET;
+                cout << "\nPress Enter to go back to the main menu...\n";
+                cin.ignore();
+                cin.get();
+                continue;
+            }
+
+            cout << '\n';
+            cout << GREEN << "Enter the amount of RON for the deposit (or press 'B' to go back): " << RESET;
+            cin >> input;
+
+            if (input == "B" || input == "b") {
+                continue;
+            }
+
+            try {
+                amount = stod(input);
+            }
+            catch (invalid_argument&) {
+                cout << RED << "Invalid amount. Please enter a valid number.\n" << RESET;
+                cout << "\nPress Enter to go back to the main menu...\n";
+                cin.ignore();
+                cin.get();
+                continue;
+            }
+
+            double accumulatedWealth = bank->calculateAmount(depositOption, amount);
+
+            if (accumulatedWealth == 0.0) {
+                cout << RED << "An error occurred during the calculation.\n" << RESET;
+            }
+            else {
+                cout << fixed << setprecision(3);
+                cout << ORANGE << "The accumulated wealth is: " << accumulatedWealth << " RON\n" << RESET;
+            }
+
+            cout << "\nPress Enter to go back to the main menu...\n";
+            cin.ignore();
+            cin.get();
+        }
+        else {
+            cout << RED << "Invalid option. Please choose a number between 1 and 5.\n" << RESET;
+            cout << "\nPress Enter to go back to the main menu...\n";
+            cin.ignore();
+            cin.get();
+        }
+
+    } while (true);
 
     return 0;
 }
