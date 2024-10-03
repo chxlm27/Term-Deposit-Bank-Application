@@ -127,7 +127,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BancaTransilvania.cpp" />
+    <ClCompile Include="Bank.cpp" />
+    <ClCompile Include="BankMenu.cpp" />
+    <ClCompile Include="BCRBank.cpp" />
+    <ClCompile Include="BRDBank.cpp" />
+    <ClCompile Include="INGBank.cpp" />
+    <ClCompile Include="RaiffeisenBank.cpp" />
     <ClCompile Include="Term Deposit Bank Application.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BancaTransilvania.h" />
+    <ClInclude Include="Bank.h" />
+    <ClInclude Include="BankMenu.h" />
+    <ClInclude Include="BCRBank.h" />
+    <ClInclude Include="BRDBank.h" />
+    <ClInclude Include="ColorConstants.h" />
+    <ClInclude Include="INGBank.h" />
+    <ClInclude Include="RaiffeisenBank.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
